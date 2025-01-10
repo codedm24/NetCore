@@ -1,0 +1,12 @@
+# Ignore .vs and obj folders
+.vs/
+obj/
+bin/
+
+# Ignore other temporary files
+*.user
+*.suo
+*.userosscache
+*.userprefs
+*.tmp
+*.log
