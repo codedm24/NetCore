@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleAppNoDI
+namespace ConsoleAppDI
 {
     //without DI
     //internal class HomeController

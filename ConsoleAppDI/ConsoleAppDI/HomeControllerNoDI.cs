@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleAppNoDI
+namespace ConsoleAppDI
 {
     internal class HomeControllerNoDI
     {
         public string Hello(string name)
         {
-            GreetingService greetingService = new GreetingService();
+            GreetingServiceNoDI greetingService = new GreetingServiceNoDI();
             return greetingService.Greet(name);
         }
     }

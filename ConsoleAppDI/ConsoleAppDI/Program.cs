@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography;
 
-namespace ConsoleAppNoDI
+namespace ConsoleAppDI
 {
     internal class Program
     {
@@ -15,7 +15,7 @@ namespace ConsoleAppNoDI
             Console.WriteLine($"Output No DI:{resultNoDI}");
 
             //using DI
-            IGreetingService greetingService = new GreetingService();
+            IGreetingService greetingService = new GreetingServiceDI();
             var controllerWithDI = new HomeController(greetingService);
             string resultWithDI = controllerWithDI.Hello("Stephanie");
             Console.WriteLine($"Output with DI: {resultWithDI}");
@@ -23,20 +23,51 @@ namespace ConsoleAppNoDI
             //using DIContainer
             using (ServiceProvider container = RegisterServices())
             { 
-                var controllerDIContainer = container.GetRequiredService<HomeController>();
-                string resultDIContainer = controllerDIContainer.Hello("Katharina");
-                Console.WriteLine($"Output with DI using ServiceProvider: {resultDIContainer}");
+                var homeController = container.GetRequiredService<HomeController>();
+                string result = homeController.Hello("Katharina");
+                Console.WriteLine($"Output with DI using ServiceProvider: {result}");
             }
+
+            //using DIContainer with options
+            using (ServiceProvider container = RegisterServicesWithOptions()) { 
+                var homeController = container.GetRequiredService<HomeController>();
+                string result = homeController.Hello("Katharina");
+                Console.WriteLine($"Output with DI using ServiceProvider: {result}");
+            }
+
 
             SingletonAndTransient();
 
             UsingScoped();
+
+            CustomFactories();
         }
 
         static ServiceProvider RegisterServices()
         {
             var services = new ServiceCollection();
-            services.AddSingleton<IGreetingService, GreetingService>();
+
+            //GreetingService without options
+            services.AddSingleton<IGreetingService, GreetingServiceDI>();                       
+
+            services.AddTransient<HomeController>();
+
+            return services.BuildServiceProvider();
+        }
+
+        static ServiceProvider RegisterServicesWithOptions()
+        {
+            var services = new ServiceCollection();
+
+            //GreetingService without options
+            //services.AddSingleton<IGreetingService, GreetingService>();
+
+            //GreetingService with options
+            services.AddOptions();
+            services.AddGreetingService(options =>
+                options.From = "Christian"
+            );
+
             services.AddTransient<HomeController>();
 
             return services.BuildServiceProvider();
@@ -108,5 +139,30 @@ namespace ConsoleAppNoDI
                 Console.WriteLine();
             }
         }
+
+        public static void CustomFactories() {
+            Console.WriteLine(nameof(CustomFactories));
+
+            IServiceB CreateServiceBFactory(IServiceProvider provider)=> new ServiceB(provider.GetRequiredService<INumberService>());
+
+            ServiceProvider RegisterServices() {
+                var serviceCollection = new ServiceCollection();
+
+                var numberService = new NumberService();
+                serviceCollection.AddSingleton<INumberService>(numberService);
+                serviceCollection.AddTransient<IServiceB>(CreateServiceBFactory);
+                serviceCollection.AddSingleton<IServiceA, ServiceA>();
+                return serviceCollection.BuildServiceProvider();
+            }
+
+            using (var container = RegisterServices()) { 
+                IServiceA? serviceA = container.GetService<IServiceA>();
+                IServiceB? serviceB = container.GetService<IServiceB>();
+                IServiceC? serviceC = container.GetService<IServiceC>();
+            }
+
+            Console.WriteLine();
+        }
+
     }
 }

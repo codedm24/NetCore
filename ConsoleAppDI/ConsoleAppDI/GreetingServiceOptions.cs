@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ConsoleAppDI
 {
-    internal interface IGreetingService
+    internal class GreetingServiceOptions
     {
-        string Greet(string name);
+        public string From { get; set; }
     }
 }
