@@ -1,4 +1,5 @@
 ﻿using ConsoleAppDI;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Cryptography;
 
@@ -32,9 +33,17 @@ namespace ConsoleAppDI
             using (ServiceProvider container = RegisterServicesWithOptions()) { 
                 var homeController = container.GetRequiredService<HomeController>();
                 string result = homeController.Hello("Katharina");
-                Console.WriteLine($"Output with DI using ServiceProvider: {result}");
+                Console.WriteLine($"Output with DI using ServiceProvider and Options: {result}");
             }
 
+            DefineConfiguration();
+
+            //using DIContainer with options using config
+            using (ServiceProvider container = RegisterServicesWithConfig()) {
+                var homeController = container.GetRequiredService<HomeController>();
+                string result = homeController.Hello("Michael");
+                Console.WriteLine($"Output with DI using ServiceProvider and Options and Config: {result}");
+            }
 
             SingletonAndTransient();
 
@@ -72,6 +81,25 @@ namespace ConsoleAppDI
 
             return services.BuildServiceProvider();
         }
+
+        private static void DefineConfiguration()
+        {
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+            Configuration = configBuilder.Build();
+        }
+
+        private static ServiceProvider RegisterServicesWithConfig()
+        {
+            var services = new ServiceCollection();
+            services.AddOptions();
+            services.AddGreetingService(Configuration.GetSection("GreetingService"));
+            services.AddTransient<HomeController>();
+            return services.BuildServiceProvider();
+        }
+
+        private static IConfiguration Configuration { get; set; }
 
         private static void SingletonAndTransient()
         {

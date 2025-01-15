@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,18 @@ namespace ConsoleAppDI
                 throw new ArgumentNullException(nameof(setupAction));
 
             collection.Configure(setupAction);
+            return collection.AddTransient<IGreetingService, GreetingServiceWithOptions>();
+        }
+
+
+        public static IServiceCollection AddGreetingService(this IServiceCollection collection, IConfiguration config)
+        {
+            if (collection == null)
+                throw new ArgumentNullException(nameof(collection));
+            if (config == null)
+                throw new ArgumentNullException(nameof(config));
+
+            collection.Configure<GreetingServiceOptions>(config);
             return collection.AddTransient<IGreetingService, GreetingServiceWithOptions>();
         }
     }
