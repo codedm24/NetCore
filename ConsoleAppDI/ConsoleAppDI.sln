@@ -11,6 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFClient", "WPFClient\WPFC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWPClient", "UWPClient\UWPClient.csproj", "{75FC3775-6209-4C9E-89FB-BDD63B0F3A08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinClient.Android", "XamarinClient\XamarinClient.Android\XamarinClient.Android.csproj", "{DB8534FC-C113-4B32-B982-C567C683365C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinClient.iOS", "XamarinClient\XamarinClient.iOS\XamarinClient.iOS.csproj", "{61CFB6EA-7F50-4F86-B5B8-603C867CF947}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinClient", "XamarinClient\XamarinClient\XamarinClient.csproj", "{53A2F234-3F2A-40F7-A539-C7F32A4F0923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +41,20 @@ Global
 		{75FC3775-6209-4C9E-89FB-BDD63B0F3A08}.Release|Any CPU.ActiveCfg = Release|x64
 		{75FC3775-6209-4C9E-89FB-BDD63B0F3A08}.Release|Any CPU.Build.0 = Release|x64
 		{75FC3775-6209-4C9E-89FB-BDD63B0F3A08}.Release|Any CPU.Deploy.0 = Release|x64
+		{DB8534FC-C113-4B32-B982-C567C683365C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB8534FC-C113-4B32-B982-C567C683365C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB8534FC-C113-4B32-B982-C567C683365C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DB8534FC-C113-4B32-B982-C567C683365C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB8534FC-C113-4B32-B982-C567C683365C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB8534FC-C113-4B32-B982-C567C683365C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{61CFB6EA-7F50-4F86-B5B8-603C867CF947}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{61CFB6EA-7F50-4F86-B5B8-603C867CF947}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{61CFB6EA-7F50-4F86-B5B8-603C867CF947}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{61CFB6EA-7F50-4F86-B5B8-603C867CF947}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{53A2F234-3F2A-40F7-A539-C7F32A4F0923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A2F234-3F2A-40F7-A539-C7F32A4F0923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A2F234-3F2A-40F7-A539-C7F32A4F0923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A2F234-3F2A-40F7-A539-C7F32A4F0923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
