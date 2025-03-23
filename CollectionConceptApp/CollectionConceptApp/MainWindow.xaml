@@ -19,6 +19,7 @@
             <Button Name="btnQueue" Template="{StaticResource roundButton}" Height="65" Width="65" Margin="5" Click="btnCollectionType_Click">Queue</Button>
             <Button Name="btnStack" Template="{StaticResource roundButton}" Height="65" Width="65" Margin="5" Click="btnCollectionType_Click">Stack</Button>
             <Button Name="btnLinkedList" Template="{StaticResource roundButton}" Height="65" Width="65" Margin="5" Click="btnCollectionType_Click">Linked List</Button>
+            <Button Name="btnSortedList" Template="{StaticResource roundButton}" Height="65" Width="65" Margin="5" Click="btnCollectionType_Click">Sorted List</Button>
         </StackPanel>
         <TabControl Name="TabControl1" Grid.Row="1">
             <TabItem Header="List">
@@ -48,6 +49,28 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="0">
                         <Button Content="Add" Margin="5" Padding="16" Command="{Binding AddDocumentCommand}"/>
                         <Button Content="Show All Documents" Margin="5" Padding="16" Command="{Binding ShowAllDocumentCommand}"/>                        
+                    </StackPanel>
+                    <ListView Grid.Row="1" ItemsSource="{Binding DocumentLog}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Foreground="Red" Background="Azure" Text="{Binding}"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Sorted List" DataContext="{Binding Source={StaticResource LinkedListViewModel1}}">
+                <!--<TabItem.DataContext>
+                    <local:LinkedListViewModel/>
+                </TabItem.DataContext>-->
+                <Grid Background="CadetBlue">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0">
+                        <Button Content="Add" Margin="5" Padding="16" Command="{Binding AddDocumentCommand}"/>
+                        <Button Content="Show All Documents" Margin="5" Padding="16" Command="{Binding ShowAllDocumentCommand}"/>
                     </StackPanel>
                     <ListView Grid.Row="1" ItemsSource="{Binding DocumentLog}" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListView.ItemTemplate>
