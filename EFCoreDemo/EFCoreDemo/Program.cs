@@ -1,5 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Console;
+using System.ComponentModel;
 
 namespace EFCoreDemo
 {
@@ -8,6 +13,7 @@ namespace EFCoreDemo
         static async Task Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
+            //AddLogging();
             //await CreateTheDatabaseAsync();
             //await DeleteTheDatabaseAsync();
             //await AddBookAsync("Professional ASP.NET MVC 5", "Wrox Press");
@@ -18,6 +24,59 @@ namespace EFCoreDemo
             //await QueryBooksAsync();
             //await UpdateBookAsync();
             //await DeleteBooksAsync();
+
+            var p = new Program();
+            p.InitializeServices();
+            p.ConfigureLogging();
+            var service = p.Container!.GetService<BooksService>();
+            //await service!.AddBooksAsync();
+            await service!.ReadBooksAsync();
+        }
+
+        private static void AddLogging()
+        {
+            //var serviceCollection = new ServiceCollection();
+            //serviceCollection.AddLogging(builder => {
+            //    builder.AddConsole();
+            //    builder.SetMinimumLevel(LogLevel.Information);
+            //});
+
+            //using (var serviceProvider = serviceCollection.BuildServiceProvider())
+            //{
+            //    var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            //    var logger = loggerFactory!.CreateLogger<Program>();
+            //    logger.LogInformation("Logging is configured");
+            //}
+
+            //using (var context = new BooksContext())
+            //{ 
+            //    IServiceProvider? provider = context.GetInfrastructure<IServiceProvider>();
+            //    ILoggerFactory? loggerFactory = provider.GetService<ILoggerFactory>();
+            //    loggerFactory.AddConsole(LogLevel.Information);
+            //}
+        }
+
+        private  void InitializeServices()
+        { 
+            const string ConnectionString = @"Server=HP-TUTAI\HPHOMESQLSRVR;Database=Books;integrated security=SSPI;Trusted_Connection=True;TrustServerCertificate=True;";
+            var services = new ServiceCollection();
+            services.AddTransient<BooksService>()
+                .AddEntityFrameworkSqlServer()
+                .AddDbContext<BooksContext1>(options => options.UseSqlServer(ConnectionString));
+            services.AddLogging();
+
+            Container = services.BuildServiceProvider();
+        }
+
+        public IServiceProvider? Container { get; private set; }
+
+        private void ConfigureLogging()
+        { 
+            //var loggerFactory = Container!.GetService<ILoggerFactory>();
+            //loggerFactory.AddConsole();
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            var logger = loggerFactory.CreateLogger<Program>();
+            logger.LogInformation("Logging is configured");
         }
 
         private static async Task CreateTheDatabaseAsync()
