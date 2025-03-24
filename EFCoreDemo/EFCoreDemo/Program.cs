@@ -31,6 +31,7 @@ namespace EFCoreDemo
             var service = p.Container!.GetService<BooksService>();
             //await service!.AddBooksAsync();
             await service!.ReadBooksAsync();
+            await p.QueryAllBooksAsync();
         }
 
         private static void AddLogging()
@@ -212,5 +213,37 @@ namespace EFCoreDemo
             }
             Console.WriteLine();
         }
+
+        private async Task QueryAllBooksAsync()
+        { 
+            Console.WriteLine(nameof(QueryAllBooksAsync));
+            using (var context = new BooksContext())
+            {
+                List<Book> books = await context.Books.ToListAsync();
+                foreach (var b in books)
+                {
+                    Console.WriteLine(b);
+                }
+            }
+            Console.WriteLine();
+        }
+
+        private async Task RawSqlQuery(string publisher)
+        { 
+            Console.WriteLine(nameof (RawSqlQuery));
+            using (var context = new BooksContext())
+            { 
+                IList<Book> books = await context.Books.FromSql($"SELECT * FROM Books WHERE Publisher={publisher}")
+                    .ToListAsync();
+
+                foreach (var b in books)
+                {
+                    Console.WriteLine($"{b.Title} {b.Publisher}");
+                }
+            }
+
+            Console.WriteLine();
+        }
+
     }
 }

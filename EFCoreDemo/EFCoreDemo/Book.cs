@@ -18,4 +18,6 @@ namespace EFCoreDemo
         [StringLength(30)]
         public string Publisher { get; set; }
     }
+
+
 }
